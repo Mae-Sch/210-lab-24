@@ -109,7 +109,6 @@ int main() {
     }
     cout << "Thank you for using Goat Manager 3001!\n";
 
-
     return 0;
 }
 
