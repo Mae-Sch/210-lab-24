@@ -13,7 +13,7 @@ const string MENU = "*** GOAT MANAGER 3001 ***\n[1] Add a goat\n[2] Delete a goa
 
 int select_goat(set<Goat> trip);
 void delete_goat(set<Goat> &trip);
-void add_goat(list<Goat> &trip, string [], string []);
+void add_goat(set<Goat> &trip, string [], string []);
 void display_trip(list<Goat> trip);
 int main_menu();
 
@@ -34,17 +34,17 @@ int select_goat(set<Goat> trip) {
                           // rather than the number displayed
 }
 
-void delete_goat(list<Goat> &trip) {
+void delete_goat(set<Goat> &trip) {
     int goatIndex = select_goat(trip);
     trip.erase(goatIndex);
 }
 
-void add_goat(list<Goat> &trip, string names[], string colors[]) {
+void add_goat(set<Goat> &trip, string names[], string colors[]) {
     string name = names[rand() % (SZ_NAMES + 1)];
     string color = colors[rand() % (SZ_COLORS + 1)];
     int age = rand() % (MAX_AGE + 1);
     Goat newGoat(name, age, color);
-    trip.push_back(newGoat);
+    trip.insert(newGoat);
 }
 
 void display_trip(list<Goat> trip) {
