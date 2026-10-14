@@ -22,11 +22,17 @@ int select_goat(set<Goat> trip) {
     int selection;
     cout << endl << endl;
     cout << "*** Current Goats ***\n";
-    for (set<Goat>::iterator goat = trip.begin(); goat != trip.end(); ++it) {
+    /*for (set<Goat>::iterator goat = trip.begin(); goat != trip.end(); ++goat) {
+        cout << "[" << count << "] " << goat.get_name() << "(" << goat.get_age()
+        << ", " << goat.get_color() << ")\n";
+        count ++;
+    }*/
+    for (Goat goat : trip) {
         cout << "[" << count << "] " << goat.get_name() << "(" << goat.get_age()
         << ", " << goat.get_color() << ")\n";
         count ++;
     }
+
     cout << endl;
     cout << "enter the index of the goat you would like to modify -> ";
     cin >> selection;
@@ -37,8 +43,8 @@ void delete_goat(set<Goat> &trip) {
     int goatIndex = select_goat(trip);
 
     // we use interators to find the goat to delete
-    set<Goat>::iterator goat;
-    for (int i = 0; (i < goatIndex) && (goat != (trip.end() + 1)); ++i) {
+    set<Goat>::iterator goat = trip.begin();
+    for (int i = 0; (i < goatIndex) && (goat != trip.end()); ++i) {
         ++goat;
     }
     trip.erase(goat); // erases set element at the user selected location
@@ -49,7 +55,7 @@ void add_goat(set<Goat> &trip, string names[], string colors[]) {
     string color = colors[rand() % (SZ_COLORS + 1)];
     int age = rand() % (MAX_AGE + 1);
     Goat newGoat(name, age, color);
-    trip.push_back(newGoat);
+    trip.insert(newGoat);
 }
 
 void display_trip(set<Goat> trip) {
