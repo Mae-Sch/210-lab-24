@@ -4,20 +4,20 @@
 #include <iostream>
 #include <fstream>
 #include <iomanip>
-#include <list>
+#include <set>
 #include "Goat.h"
 using namespace std;
 
 const int SZ_NAMES = 200, SZ_COLORS = 25, MAX_AGE = 20;
 const string MENU = "*** GOAT MANAGER 3001 ***\n[1] Add a goat\n[2] Delete a goat\n[3] List goats\n[4] Quit\nChoice --> ";
 
-int select_goat(list<Goat> trip);
-void delete_goat(list<Goat> &trip);
+int select_goat(set<Goat> trip);
+void delete_goat(set<Goat> &trip);
 void add_goat(list<Goat> &trip, string [], string []);
 void display_trip(list<Goat> trip);
 int main_menu();
 
-int select_goat(list<Goat> trip) {
+int select_goat(set<Goat> trip) {
     int count = 1;
     int selection;
     cout << endl << endl;
@@ -30,7 +30,13 @@ int select_goat(list<Goat> trip) {
     cout << endl;
     cout << "enter the index of the goat you would like to modify -> ";
     cin >> selection;
-    return selection;
+    return selection - 1; // subtracting 1 to ensure number returned is the index
+                          // rather than the number displayed
+}
+
+void delete_goat(list<Goat> &trip) {
+    int goatIndex = select_goat(trip);
+    trip.erase(goatIndex);
 }
 
 void add_goat(list<Goat> &trip, string names[], string colors[]) {
@@ -51,16 +57,6 @@ void display_trip(list<Goat> trip) {
         ++count;
     }
     cout << endl;
-}
-
-void delete_goat(list<Goat> &trip) {
-    int goatIndex = select_goat(trip);
-
-    // we use interators to find the goat to delete
-    list<Goat>::iterator it = trip.begin();
-    
-    advance(it, goatIndex);
-    trip.erase(it); // erases list element at the user selected location
 }
 
 int main_menu() {
