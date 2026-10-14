@@ -14,7 +14,7 @@ const string MENU = "*** GOAT MANAGER 3001 ***\n[1] Add a goat\n[2] Delete a goa
 int select_goat(set<Goat> trip);
 void delete_goat(set<Goat> &trip);
 void add_goat(set<Goat> &trip, string [], string []);
-void display_trip(list<Goat> trip);
+void display_trip(set<Goat> trip);
 int main_menu();
 
 int select_goat(set<Goat> trip) {
@@ -22,7 +22,7 @@ int select_goat(set<Goat> trip) {
     int selection;
     cout << endl << endl;
     cout << "*** Current Goats ***\n";
-    for (Goat goat : trip) {
+    for (set<Goat>::iterator goat = trip.begin(); goat != trip.end(); ++it) {
         cout << "[" << count << "] " << goat.get_name() << "(" << goat.get_age()
         << ", " << goat.get_color() << ")\n";
         count ++;
@@ -30,13 +30,18 @@ int select_goat(set<Goat> trip) {
     cout << endl;
     cout << "enter the index of the goat you would like to modify -> ";
     cin >> selection;
-    return selection - 1; // subtracting 1 to ensure number returned is the index
-                          // rather than the number displayed
+    return selection - 1;
 }
 
 void delete_goat(set<Goat> &trip) {
     int goatIndex = select_goat(trip);
-    trip.erase(goatIndex);
+
+    // we use interators to find the goat to delete
+    set<Goat>::iterator goat;
+    for (int i = 0; (i < goatIndex) && (goat != (trip.end() + 1)); ++i) {
+        ++goat;
+    }
+    trip.erase(goat); // erases set element at the user selected location
 }
 
 void add_goat(set<Goat> &trip, string names[], string colors[]) {
@@ -44,10 +49,10 @@ void add_goat(set<Goat> &trip, string names[], string colors[]) {
     string color = colors[rand() % (SZ_COLORS + 1)];
     int age = rand() % (MAX_AGE + 1);
     Goat newGoat(name, age, color);
-    trip.insert(newGoat);
+    trip.push_back(newGoat);
 }
 
-void display_trip(list<Goat> trip) {
+void display_trip(set<Goat> trip) {
     int count = 1;
     cout << endl;
     cout << "*** Current Goats ***\n";
@@ -82,7 +87,7 @@ int main() {
     while (fin1 >> colors[i++]);
     fin1.close();
 
-    list<Goat> Goats;
+    set<Goat> Goats;
 
     int input = main_menu();
     while (input != 4) {
